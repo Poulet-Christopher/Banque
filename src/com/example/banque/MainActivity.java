@@ -29,25 +29,29 @@ public class MainActivity extends Activity {
         
         bSauver.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
+            	Intent intent = new Intent(MainActivity.this, Sauver.class);
+            	startActivity(intent);
             }
         });
         
         bAjouter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
+            	Intent intent = new Intent(MainActivity.this, Ajouter.class);
+            	startActivity(intent);
             }
         });
         
         bEditer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
+            	Intent intent = new Intent(MainActivity.this, Editer.class);
+            	startActivity(intent);
             }
         });
         
         bSupprimer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
+            	Intent intent = new Intent(MainActivity.this, Supprimer.class);
+            	startActivity(intent);
             }
         });
         
