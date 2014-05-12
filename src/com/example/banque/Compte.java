@@ -6,7 +6,7 @@ public class Compte {
 	private int ID=0;
 	private double solde;
 	
-	public void Compte(String name, double solde){
+	public Compte(String name, double solde){
 		ID = ID+1;
 		this.name = name;
 		this.solde = solde;
