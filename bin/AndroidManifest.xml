@@ -22,21 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity 
-            android:name=".Charger" 
-            android:label="@string/app_name"/>
-        <activity 
-            android:name=".Ajouter" 
-            android:label="@string/app_name"/>
-        <activity 
-            android:name=".Editer" 
-            android:label="@string/app_name"/>
-        <activity 
-            android:name=".Sauver" 
-            android:label="@string/app_name"/>
-        <activity 
-            android:name=".Supprimer" 
-            android:label="@string/app_name"/>
     </application>
 
 </manifest>
