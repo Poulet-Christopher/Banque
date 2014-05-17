@@ -43,5 +43,12 @@ public class Compte {
 	public void debiter(double montant){
 		this.solde -= montant;
 	}
-
+	
+	public void charger(){
+		
+	}
+	
+	public void sauvegarder(){
+		
+	}
 }

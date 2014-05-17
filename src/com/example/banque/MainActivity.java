@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import 	android.content.Intent;
 
 public class MainActivity extends Activity {
@@ -19,6 +21,8 @@ public class MainActivity extends Activity {
         final Button bAjouter = (Button) findViewById(R.id.bAjouter);
         final Button bEditer = (Button) findViewById(R.id.bEditer);
         final Button bSupprimer = (Button) findViewById(R.id.bSupprimer);
+        
+        final ListView list = (ListView)findViewById(R.id.listView1);
         
         bCharger.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -38,8 +42,15 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
             	Intent intent = new Intent(MainActivity.this, Ajouter.class);
             	startActivity(intent);
+            	
+                String nom = intent.getStringExtra("nom");
+                Double solde = intent.getDoubleExtra("solde",0);
+                
+                Compte compte = new Compte(nom,solde);               
+            	
             }
         });
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.activity_main, lCompte);
         
         bEditer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -54,6 +65,11 @@ public class MainActivity extends Activity {
             	startActivity(intent);
             }
         });
+        
+
+       String[] lCompte = {nom+" "+solde.toString()};
+
+        
         
     }
 
