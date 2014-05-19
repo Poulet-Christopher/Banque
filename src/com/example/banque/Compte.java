@@ -6,6 +6,10 @@ public class Compte {
 	private int ID=0;
 	private double solde;
 	
+	public Compte(){
+		
+	}
+	
 	public Compte(String name, double solde){
 		ID = ID+1;
 		this.name = name;
@@ -34,6 +38,11 @@ public class Compte {
 	
 	public double getSolde(){
 		return this.solde;
+	}
+	
+	public String getSoldeString(){
+		String ssolde = String.valueOf(solde);
+		return ssolde;
 	}
 	
 	public void crediter(double montant){

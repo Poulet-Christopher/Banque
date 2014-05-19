@@ -1,15 +1,27 @@
 package com.example.banque;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
 import 	android.content.Intent;
 
 public class MainActivity extends Activity {
+    Compte compte = new Compte();
+    Button bCharger,bSauver,bAjouter,bEditer,bSupprimer;
+    ListView list;
+    String nom;
+    double solde;
+    String[] values;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +33,6 @@ public class MainActivity extends Activity {
         final Button bAjouter = (Button) findViewById(R.id.bAjouter);
         final Button bEditer = (Button) findViewById(R.id.bEditer);
         final Button bSupprimer = (Button) findViewById(R.id.bSupprimer);
-        
         final ListView list = (ListView)findViewById(R.id.listView1);
         
         bCharger.setOnClickListener(new View.OnClickListener() {
@@ -41,16 +52,11 @@ public class MainActivity extends Activity {
         bAjouter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	Intent intent = new Intent(MainActivity.this, Ajouter.class);
-            	startActivity(intent);
-            	
-                String nom = intent.getStringExtra("nom");
-                Double solde = intent.getDoubleExtra("solde",0);
-                
-                Compte compte = new Compte(nom,solde);               
-            	
+            	startActivityForResult(intent, 1);
             }
         });
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.activity_main, lCompte);
+        
+        
         
         bEditer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -66,13 +72,22 @@ public class MainActivity extends Activity {
             }
         });
         
-
-       String[] lCompte = {nom+" "+solde.toString()};
-
-        
-        
     }
-
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	super.onActivityResult(requestCode, resultCode, data);
+    	final ListView list = (ListView)findViewById(R.id.listView1);
+    	if(requestCode==1){
+    		nom = data.getStringExtra("nom");
+    		solde = data.getDoubleExtra("solde", 0);
+    		compte = new Compte(nom,solde);
+    		Toast.makeText(getApplicationContext(),compte.getName()+" :"+compte.getSoldeString()+"€" , Toast.LENGTH_SHORT).show();
+    		values = new String[] {compte.getName()+" :"+compte.getSoldeString()+"€"};
+    		list.setAdapter(new ArrayAdapter<String>(this,R.layout.activity_main,R.id.bAjouter,values));
+    	}
+    	
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

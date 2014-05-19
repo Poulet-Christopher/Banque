@@ -8,6 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class Ajouter extends Activity{
+	private static final int REQUEST_CODE = 1;
+	String nom="";
+	double solde = 0;
+	Button bAjout;
+	EditText EtNom;
+	EditText EtSolde;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -18,20 +24,21 @@ public class Ajouter extends Activity{
     	final EditText EtNom = (EditText) findViewById(R.id.etNom);
     	final EditText EtSolde = (EditText) findViewById(R.id.etSolde);
     	
+    	
     	bAjout.setOnClickListener(new View.OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				String nom = EtNom.getText().toString();
-				double solde = Double.parseDouble(EtSolde.getText().toString());
-				
-				Intent intent = new Intent(Ajouter.this,MainActivity.class);
-				intent.putExtra("nom",nom);
+				nom = EtNom.getText().toString();
+				solde = Double.parseDouble(EtSolde.getText().toString());
+				Intent intent =  new Intent();
+				intent.putExtra("nom", nom);
 				intent.putExtra("solde", solde);
-				startActivity(intent);
+				
+				setResult(1,intent);
+				finish();
 				
 			}
-    		
     	});
         
     }
