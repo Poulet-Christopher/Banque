@@ -46,13 +46,16 @@
             android:id="@+id/bEditer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="Editer" />
 
         <Button
             android:id="@+id/bSupprimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="Supprimer" />
+
     </LinearLayout>
 
 </LinearLayout>

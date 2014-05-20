@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,6 +23,7 @@ public class MainActivity extends Activity {
     double solde;
     ArrayList<String> values = new ArrayList<String>();
     ArrayAdapter<String> adapter;
+    int ItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class MainActivity extends Activity {
         final Button bAjouter = (Button) findViewById(R.id.bAjouter);
         final Button bEditer = (Button) findViewById(R.id.bEditer);
         final Button bSupprimer = (Button) findViewById(R.id.bSupprimer);
+        final ListView list = (ListView)findViewById(R.id.listView1);
         
         bCharger.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -54,21 +58,26 @@ public class MainActivity extends Activity {
             }
         });
         
-        
-        
-        bEditer.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	Intent intent = new Intent(MainActivity.this, Editer.class);
-            	startActivity(intent);
-            }
+        list.setOnItemClickListener(new OnItemClickListener(){
+        	 @Override 
+        	 public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
+        	 { 
+        	        bEditer.setEnabled(true);
+        	        bSupprimer.setEnabled(true);
+                	ItemList = position;
+        	 }
         });
         
         bSupprimer.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	Intent intent = new Intent(MainActivity.this, Supprimer.class);
-            	startActivity(intent);
-            }
-        });
+			
+			@Override
+			public void onClick(View v) {
+				adapter.remove(adapter.getItem(ItemList));
+				adapter.notifyDataSetChanged();
+				bEditer.setEnabled(false);
+				bSupprimer.setEnabled(false);
+			}
+		});
         
     }
     
