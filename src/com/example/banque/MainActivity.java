@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
     ListView list;
     String nom;
     double solde;
-    ArrayList<String> values = null;
+    ArrayList<String> values = new ArrayList<String>();
     ArrayAdapter<String> adapter;
 
     @Override
@@ -79,14 +79,9 @@ public class MainActivity extends Activity {
     	if(requestCode==1){
     		nom = data.getStringExtra("nom");
     		solde = data.getDoubleExtra("solde", 0);
-    		compte = new Compte(nom,solde);
-    		Toast.makeText(getApplicationContext(),compte.getName()+" :"+compte.getSoldeString()+"€" , Toast.LENGTH_SHORT).show();
-    		
-    		values = new ArrayList<String>();
-    		values.add(compte.getName()+" :"+compte.getSoldeString()+"€");
-    		
-    		adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values);
-    		
+    		compte = new Compte(nom,solde); 		
+    		values.add(compte.getName()+": "+compte.getSoldeString()+"€");   		
+    		adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
     		list.setAdapter(adapter);
     	}
     	
