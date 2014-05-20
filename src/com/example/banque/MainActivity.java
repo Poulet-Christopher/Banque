@@ -1,19 +1,17 @@
 package com.example.banque;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
-import 	android.content.Intent;
+import android.content.Intent;
 
 public class MainActivity extends Activity {
     Compte compte = new Compte();
@@ -21,7 +19,8 @@ public class MainActivity extends Activity {
     ListView list;
     String nom;
     double solde;
-    String[] values;
+    ArrayList<String> values = null;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,6 @@ public class MainActivity extends Activity {
         final Button bAjouter = (Button) findViewById(R.id.bAjouter);
         final Button bEditer = (Button) findViewById(R.id.bEditer);
         final Button bSupprimer = (Button) findViewById(R.id.bSupprimer);
-        final ListView list = (ListView)findViewById(R.id.listView1);
         
         bCharger.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -83,8 +81,13 @@ public class MainActivity extends Activity {
     		solde = data.getDoubleExtra("solde", 0);
     		compte = new Compte(nom,solde);
     		Toast.makeText(getApplicationContext(),compte.getName()+" :"+compte.getSoldeString()+"€" , Toast.LENGTH_SHORT).show();
-    		values = new String[] {compte.getName()+" :"+compte.getSoldeString()+"€"};
-    		list.setAdapter(new ArrayAdapter<String>(this,R.layout.activity_main,R.id.bAjouter,values));
+    		
+    		values = new ArrayList<String>();
+    		values.add(compte.getName()+" :"+compte.getSoldeString()+"€");
+    		
+    		adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values);
+    		
+    		list.setAdapter(adapter);
     	}
     	
     }
