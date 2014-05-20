@@ -12,6 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
@@ -19,8 +20,8 @@ public class MainActivity extends Activity {
     Compte compte = new Compte();
     Button bCharger,bSauver,bAjouter,bEditer,bSupprimer;
     ListView list;
-    String nom;
-    double solde;
+    String nom, list_solde, list_item, list_items;
+    double solde, item_solde;
     ArrayList<String> values = new ArrayList<String>();
     ArrayAdapter<String> adapter;
     int ItemList;
@@ -79,6 +80,20 @@ public class MainActivity extends Activity {
 			}
 		});
         
+        bEditer.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, Editer.class);
+				list_items =  adapter.getItem(ItemList);
+				list_item = list_items.substring(0, list_items.length()-1);
+				list_solde = list_item.substring(list_item.indexOf(": ")+1);
+				item_solde = Double.parseDouble(list_solde);
+				intent.putExtra("solde", item_solde);
+				startActivityForResult(intent, 2);
+			}
+		});
+        
     }
     
     @Override
@@ -90,6 +105,13 @@ public class MainActivity extends Activity {
     		solde = data.getDoubleExtra("solde", 0);
     		compte = new Compte(nom,solde); 		
     		values.add(compte.getName()+": "+compte.getSoldeString()+"€");   		
+    		adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
+    		list.setAdapter(adapter);
+    	}
+    	if(requestCode==2){
+    		solde = data.getDoubleExtra("solde", 0);
+    		String updateSolde = list_item.substring(0,list_item.length()-list_solde.length())+" "+solde+"€";
+    		values.set(ItemList, updateSolde);
     		adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
     		list.setAdapter(adapter);
     	}

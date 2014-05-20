@@ -8,8 +8,37 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editer un compte"
+        android:text="Editer le compte"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioGroup
+            android:id="@+id/radioGroup1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/radCredit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.32"
+                android:checked="true"
+                android:text="Crediter (+)" />
+
+            <RadioButton
+                android:id="@+id/radDebit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="Debiter (-)" />
+
+        </RadioGroup>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,47 +48,27 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nom :"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="Somme :" />
 
         <EditText
-            android:id="@+id/etEditNom"
-            android:layout_width="wrap_content"
+            android:id="@+id/etSomme"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName" >
-
-            <requestFocus />
-        </EditText>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            android:ems="10" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Solde :"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <EditText
-            android:id="@+id/etEditSolde"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number" />
+            android:text="€" />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/bModifier"
+        android:id="@+id/bEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Modifier" />
+        android:text="Ok" />
 
 </LinearLayout>
