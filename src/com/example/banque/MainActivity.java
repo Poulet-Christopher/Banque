@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
     ListView list;
     String nom, list_solde, list_item, list_items;
     double solde, item_solde;
-    ArrayList<String> values = new ArrayList<String>();
+    ArrayList<String> values = new ArrayList<String>();  //a stocker en BDD a la place des compte peut etre?
     ArrayAdapter<String> adapter;
     int ItemList;
 
