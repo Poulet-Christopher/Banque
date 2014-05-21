@@ -18,7 +18,7 @@ import android.content.Intent;
 
 public class MainActivity extends Activity {
     Compte compte = new Compte();
-    Button bCharger,bSauver,bAjouter,bEditer,bSupprimer;
+    Button bAjouter,bEditer,bSupprimer;
     ListView list;
     String nom, list_solde, list_item, list_items;
     double solde, item_solde;
@@ -31,26 +31,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        final Button bCharger = (Button) findViewById(R.id.bCharger);
-        final Button bSauver = (Button) findViewById(R.id.bSauver);
         final Button bAjouter = (Button) findViewById(R.id.bAjouter);
         final Button bEditer = (Button) findViewById(R.id.bEditer);
         final Button bSupprimer = (Button) findViewById(R.id.bSupprimer);
         final ListView list = (ListView)findViewById(R.id.listView1);
         
-        bCharger.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	Intent intent = new Intent(MainActivity.this, Charger.class);
-            	startActivity(intent);
-            }
-        });
         
-        bSauver.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	Intent intent = new Intent(MainActivity.this, Sauver.class);
-            	startActivity(intent);
-            }
-        });
+        // Charger dans la liste les données en base
         
         bAjouter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -73,10 +60,13 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				adapter.remove(adapter.getItem(ItemList));
-				adapter.notifyDataSetChanged();
+				values.remove(ItemList);
+				adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
+        		list.setAdapter(adapter);
 				bEditer.setEnabled(false);
 				bSupprimer.setEnabled(false);
+				
+				//mettre a jour la base pour suppression
 			}
 		});
         
@@ -90,6 +80,8 @@ public class MainActivity extends Activity {
 				list_solde = list_item.substring(list_item.indexOf(": ")+1);
 				item_solde = Double.parseDouble(list_solde);
 				intent.putExtra("solde", item_solde);
+				bEditer.setEnabled(false);
+				bSupprimer.setEnabled(false);
 				startActivityForResult(intent, 2);
 			}
 		});
@@ -100,20 +92,30 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
     	final ListView list = (ListView)findViewById(R.id.listView1);
-    	if(requestCode==1){
-    		nom = data.getStringExtra("nom");
-    		solde = data.getDoubleExtra("solde", 0);
-    		compte = new Compte(nom,solde); 		
-    		values.add(compte.getName()+": "+compte.getSoldeString()+"€");   		
-    		adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
-    		list.setAdapter(adapter);
-    	}
-    	if(requestCode==2){
-    		solde = data.getDoubleExtra("solde", 0);
-    		String updateSolde = list_item.substring(0,list_item.length()-list_solde.length())+" "+solde+"€";
-    		values.set(ItemList, updateSolde);
-    		adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
-    		list.setAdapter(adapter);
+    	switch(requestCode){
+    		case 1:{
+    			nom = data.getStringExtra("nom");
+        		solde = data.getDoubleExtra("solde", 0);
+        		compte = new Compte(nom,solde); 		
+        		values.add(compte.getName()+": "+compte.getSoldeString()+"€");   		
+        		adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
+        		list.setAdapter(adapter);
+        		
+        		//mettre a jour la base pour ajout.
+        		
+    			break;
+    		}
+    		case 2:{
+    			solde = data.getDoubleExtra("solde", 0);
+        		String updateSolde = list_item.substring(0,list_item.length()-list_solde.length())+" "+solde+"€";
+        		values.set(ItemList, updateSolde);
+        		adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
+        		list.setAdapter(adapter);
+        		
+        		// mettre a jour la base pour changement du solde
+        		
+    			break;
+    		}
     	}
     	
     }

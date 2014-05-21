@@ -24,19 +24,6 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/bCharger"
-            style="@style/AppTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Charger" />
-
-        <Button
-            android:id="@+id/bSauver"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sauver" />
-
-        <Button
             android:id="@+id/bAjouter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
