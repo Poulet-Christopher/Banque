@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
     ArrayList<String> values = new ArrayList<String>();  //a stocker en BDD a la place des compte peut etre?
     ArrayAdapter<String> adapter;
     int ItemList;
+    BanqueBDD banque;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,16 @@ public class MainActivity extends Activity {
         final Button bEditer = (Button) findViewById(R.id.bEditer);
         final Button bSupprimer = (Button) findViewById(R.id.bSupprimer);
         final ListView list = (ListView)findViewById(R.id.listView1);
+        
+        banque = new BanqueBDD(this);
+        
+        banque.open();
+        //chargement des données de la base dans la liste si la base n'est pas vide
+        values = banque.getComptes();       
+        if(!values.isEmpty()){
+        	adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
+    		list.setAdapter(adapter);
+        }
         
         
         // Charger dans la liste les données en base
@@ -67,6 +78,8 @@ public class MainActivity extends Activity {
 				bSupprimer.setEnabled(false);
 				
 				//mettre a jour la base pour suppression
+				
+				banque.removeBanqueWithID(ItemList);
 			}
 		});
         
@@ -102,6 +115,7 @@ public class MainActivity extends Activity {
         		list.setAdapter(adapter);
         		
         		//mettre a jour la base pour ajout.
+        		banque.insertCompte(compte.getName()+": "+compte.getSoldeString()+"€");
         		
     			break;
     		}
@@ -113,6 +127,7 @@ public class MainActivity extends Activity {
         		list.setAdapter(adapter);
         		
         		// mettre a jour la base pour changement du solde
+        		banque.updateCompte(ItemList, updateSolde);
         		
     			break;
     		}
