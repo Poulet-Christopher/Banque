@@ -21,6 +21,7 @@ public class Editer extends Activity {
 	EditText etMontant;
 	Button editer;
 	double solde, montant;
+	String operation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +43,17 @@ public class Editer extends Activity {
 				montant = Double.parseDouble(etMontant.getText().toString());
 				if(crediter.isChecked()){
 					solde = solde + montant;
+					operation = "+"+montant;
 				}
 				else
 				{
 					solde = solde - montant;
+					operation = "-"+montant;
 				}
 				
 				Intent intent = new Intent();
 				intent.putExtra("solde", solde);
+				intent.putExtra("op", operation);
 				setResult(2, intent);
 				finish();
 			}

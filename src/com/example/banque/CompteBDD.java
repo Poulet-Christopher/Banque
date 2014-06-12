@@ -93,4 +93,41 @@ public class CompteBDD {
 		c.moveToLast();
 		return id = c.getInt(NUM_COL_ID);
 	}
+	
+	public void createTable(int id){
+		String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_COMPTE +"_"+id
+				+ " ("
+				+" ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+"operation TEXT NOT NULL "
+				+");";
+		bdd.execSQL(sql);
+	}
+	
+	public long insertOperation(int id, String operation){
+		// Création d'un compte
+		ContentValues values = new ContentValues();
+		// ajout d'une valeur associé à une clé (nom de la colonne associé à la valeur que l'on saisie)
+		values.put("operation", operation);
+		// insertion de l'objet dans la BDD via le contentValues
+		return bdd.insert(TABLE_COMPTE+"_"+id, null, values);
+	}
+	
+	public int removeOperation(int id){
+		return bdd.delete(TABLE_COMPTE+"_"+id, null, null);
+	}
+	
+	public ArrayList<String> getOperations(int id){
+		Cursor c = bdd.query(TABLE_COMPTE+"_"+id,new String[] {"operation"}, null, null, null, null, null);
+		c.moveToFirst();
+		ArrayList<String> values = new ArrayList<String>();
+		for(int i = 0; i < c.getCount(); i++){
+			String operation;
+			operation = c.getString(c.getColumnIndex("operation"));
+			values.add(operation);
+			c.moveToNext();
+		}
+		c.close();
+		return values;
+	}
+	
 }

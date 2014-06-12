@@ -30,6 +30,10 @@
             android:name="com.example.banque.Editer"
             android:label="@string/title_activity_editer" >
         </activity>
+        <activity
+            android:name="com.example.banque.Historique"
+            android:label="@string/title_activity_historique" >
+        </activity>
     </application>
 
 </manifest>

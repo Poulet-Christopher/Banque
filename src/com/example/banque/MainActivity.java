@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 	ListView lv;
 	Button ajouter, editer, historique, supprimer, viderBase;
 	Compte compte =  new Compte();
-	String nom;
+	String nom, operation;
 	double solde;
 	CompteBDD compteBDD;
 	ArrayList<String> values = new ArrayList<String>();
@@ -92,6 +92,9 @@ public class MainActivity extends Activity {
 				values = compteBDD.getComptes();
 				adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
 	    		lv.setAdapter(adapter);
+	    		editer.setEnabled(false);
+	       		historique.setEnabled(false);
+	       		supprimer.setEnabled(false);
 			}
 		});
 		
@@ -115,6 +118,19 @@ public class MainActivity extends Activity {
 				
 			}
 		});
+		
+		historique.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent iHisto = new Intent(MainActivity.this, Historique.class);
+				iHisto.putExtra("id", getItemIdForBDD(values.get(selectItem)));
+				startActivity(iHisto);
+				editer.setEnabled(false);
+				supprimer.setEnabled(false);
+				historique.setEnabled(false);
+			}
+		});
 
 	}
 	
@@ -134,6 +150,9 @@ public class MainActivity extends Activity {
     	        	adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
     	    		lv.setAdapter(adapter);
     	        }
+    	        
+    	        compteBDD.createTable(compte.getId());
+    	        
     			break;
     		}
     		case 2:{
@@ -144,6 +163,9 @@ public class MainActivity extends Activity {
     		    	adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,values); 		
     		    	lv.setAdapter(adapter);
     		    }
+    		    
+    		    operation = data.getStringExtra("op");
+    		    compteBDD.insertOperation(getItemIdForBDD(values.get(selectItem)), operation);
     			break;
     		}
     	}
