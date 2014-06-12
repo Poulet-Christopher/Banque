@@ -1,55 +1,79 @@
 package com.example.banque;
 
 import android.app.Activity;
+import android.app.ActionBar;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.os.Build;
 
-public class Editer extends Activity{
+public class Editer extends Activity {
 	
-	Button bEdit;
-	RadioButton rbCredit;
-	RadioButton rbDebit;
-	EditText etSomme;
-	double solde;
+	RadioButton crediter, debiter;
+	EditText etMontant;
+	Button editer;
+	double solde, montant;
 
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_editer);
-        
-        bEdit = (Button)findViewById(R.id.bEdit);
-        rbCredit = (RadioButton)findViewById(R.id.radCredit);
-        rbDebit = (RadioButton)findViewById(R.id.radDebit);
-        final EditText etSomme = (EditText)findViewById(R.id.etSomme);
-        
-        Intent intent = getIntent();
-        solde = intent.getDoubleExtra("solde", 0);
-        
-        bEdit.setOnClickListener(new View.OnClickListener() {
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_editer);
+		
+		crediter = (RadioButton)findViewById(R.id.rCredit);
+		debiter = (RadioButton)findViewById(R.id.rDebit);
+		etMontant = (EditText)findViewById(R.id.etMontant);
+		editer = (Button)findViewById(R.id.bEditer);
+		
+		Intent iEditer = getIntent();
+		solde = iEditer.getDoubleExtra("solde", 0);
+		
+		editer.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				if(rbCredit.isChecked()){
-					solde = solde + Double.parseDouble(etSomme.getText().toString());
+				montant = Double.parseDouble(etMontant.getText().toString());
+				if(crediter.isChecked()){
+					solde = solde + montant;
 				}
-				else{
-					solde = solde - Double.parseDouble(etSomme.getText().toString());
+				else
+				{
+					solde = solde - montant;
 				}
 				
-				Intent i =  new Intent();
-				i.putExtra("solde", solde);
-				
-				setResult(2, i);
-				
+				Intent intent = new Intent();
+				intent.putExtra("solde", solde);
+				setResult(2, intent);
 				finish();
-				
 			}
 		});
-        
-    }
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.editer, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 }
